@@ -4,6 +4,7 @@
 package command
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -131,14 +132,14 @@ func (c *StateShowCommand) Run(args []string) int {
 
 	state := stateMgr.State()
 	if state == nil {
-		diags = diags.Append(errStateNotFound)
+		diags = diags.Append(errors.New(errStateNotFound))
 		view.Diagnostics(diags)
 		return 1
 	}
 
 	is := state.ResourceInstance(addr)
 	if !is.HasCurrent() {
-		diags = diags.Append(errNoInstanceFound)
+		diags = diags.Append(errors.New(errNoInstanceFound))
 		view.Diagnostics(diags)
 		return 1
 	}
