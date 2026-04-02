@@ -131,14 +131,14 @@ func (c *StateShowCommand) Run(args []string) int {
 
 	state := stateMgr.State()
 	if state == nil {
-		diags = diags.Append(fmt.Errorf(errStateNotFound))
+		diags = diags.Append(errStateNotFound)
 		view.Diagnostics(diags)
 		return 1
 	}
 
 	is := state.ResourceInstance(addr)
 	if !is.HasCurrent() {
-		diags = diags.Append(fmt.Errorf(errNoInstanceFound))
+		diags = diags.Append(errNoInstanceFound)
 		view.Diagnostics(diags)
 		return 1
 	}

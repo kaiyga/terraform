@@ -191,6 +191,6 @@ func (v *ShowJSON) DisplayResourceInstanceState(rs *states.Resource, rAddr addrs
 		v.view.streams.Eprintf("JSON parse error: %s", err)
 		return 1
 	}
-	v.view.streams.Println(string(prettyJSON.Bytes()))
+	v.view.streams.Println(prettyJSON.String())
 	return 0
 }
