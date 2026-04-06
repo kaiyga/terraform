@@ -96,3 +96,26 @@ jobs:
           name: ${{ env.DEB_PACKAGE }}
           path: out/${{ env.DEB_PACKAGE }}
           if-no-files-found: error
+
+      # Illegal but i was bored found they releases in mirrors 
+      # Because sanction policy blocked my stands and my home devices 
+
+      - name: Prepare Release Assets
+        id: assets
+        run: |
+          echo "ASSET_PATHS=$(ls out/* | tr '\n' ',' | sed 's/,$//')" >> $GITHUB_OUTPUT
+
+      - name: Publish to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') 
+        with:
+          files: |
+            out/*.rpm
+            out/*.deb
+            out/*.zip
+            dist/terraform
+          generate_release_notes: true
+          draft: false 
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
